@@ -5,6 +5,7 @@ const app=express();
 const Listing=require("./models/listing.js")
 const path=require("path")
 const methodOverride=require("method-override")
+const ejsMate=require("ejs-mate")
 MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
 async function main(){await mongoose.connect(MONGO_URL);};
 
@@ -18,6 +19,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/",async (req,res)=>{
     res.send("HEllo world")
