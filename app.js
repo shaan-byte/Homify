@@ -6,7 +6,7 @@ const Listing=require("./models/listing.js")
 const path=require("path")
 const methodOverride=require("method-override")
 const ejsMate=require("ejs-mate")
-MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
+MONGO_URL="mongodb+srv://yuval:yuval123@cluster0.fjf8vzg.mongodb.net/"
 async function main(){await mongoose.connect(MONGO_URL);};
 
 main().then(()=>{
@@ -39,6 +39,7 @@ app.get("/listings/new", (req, res) => {
 
 //Show Route
 app.get("/listings/:id", async (req, res) => {
+  
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/show.ejs", { listing });
