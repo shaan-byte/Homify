@@ -1,9 +1,13 @@
 body{
     font-family: "Plus Jakarta Sans", sans-serif !important;
-    font-optical-sizing: auto !important;
-    font-weight: 400; /* or 500, 700, etc., depending on your design */
-    font-style: normal ;
     padding-top: 6rem !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container{
+    flex:1;
 }
 
 /* Navbar */
@@ -83,7 +87,7 @@ footer{
 }
 
 .card-text p{
-    font-weight: 400;
+    font-weight: 400 !important;
 }
 
 .listing-link{
@@ -91,6 +95,7 @@ footer{
 }
 
 
+/* Cards hover effect */
 .card-img-overlay{
     opacity: 0;
 }
@@ -99,4 +104,26 @@ footer{
     opacity: 0.2;
     background-color: white;
     transition: all 0.5s ease-in-out;
+}
+
+/* button */
+
+.add-btn{
+   background-color: #f92634 !important;
+   border: none !important;
+   transition: background-color 0.3s ease-in-out ;
+}
+
+.add-btn:hover {
+    background-color: #d81b24 !important; 
+}
+
+.edit-btn{
+   background-color: #3B82F6 !important;
+   border: none !important;
+    transition: background-color 0.3s ease-in-out ;
+}
+
+.edit-btn:hover {
+    background-color: #2563EB !important; 
 }
