@@ -86,8 +86,9 @@ footer{
     padding:0 !important;
 }
 
-.card-text p{
+.card-text {
     font-weight: 400 !important;
+    margin-top: 10px !important;
 }
 
 .listing-link{
