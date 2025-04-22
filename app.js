@@ -6,7 +6,8 @@ const Listing=require("./models/listing.js")
 const path=require("path")
 const methodOverride=require("method-override")
 const ejsMate=require("ejs-mate")
-MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
+const multer = require("multer")
+MONGO_URL="kya be chintu ?"
 async function main(){await mongoose.connect(MONGO_URL);};
 
 main().then(()=>{
@@ -21,9 +22,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "uploads")); // Save files in the 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+  },
+});
+
+const upload = multer({ storage });
 
 app.get("/",async (req,res)=>{
-    res.send("HEllo world")
+  res.send('hey');
 })
 
 //Index Route
@@ -39,14 +52,28 @@ app.get("/listings/new", (req, res) => {
 
 //Show Route
 app.get("/listings/:id", async (req, res) => {
+  
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/show.ejs", { listing });
 });
 
 //Create Route
-app.post("/listings", async (req, res) => {
-  const newListing = new Listing(req.body.listing);
+app.post("/listings", upload.single("image"), async (req, res) => {
+  const { title, description, price, location, country } = req.body.listing;
+  const newListing = new Listing({
+    title,
+    description,
+    price,
+    location,
+    country,
+    image: {
+      filename: req.file ? req.file.filename : "defaultImage.jpg",
+      url: req.file
+        ? `/uploads/${req.file.filename}`
+        : "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    },
+  });
   await newListing.save();
   res.redirect("/listings");
 });
@@ -59,9 +86,33 @@ app.get("/listings/:id/edit", async (req, res) => {
 });
 
 //Update Route
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", upload.single("image"), async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+  // Validate that req.body.listing exists
+  if (!req.body.listing) {
+    return res.status(400).send("Invalid form submission. Missing listing data.");
+  }
+
+  // Find the listing to update
+  const listing = await Listing.findById(id);
+
+  // Update listing details
+  listing.title = req.body.listing.title;
+  listing.description = req.body.listing.description;
+  listing.price = req.body.listing.price;
+  listing.location = req.body.listing.location;
+  listing.country = req.body.listing.country;
+
+  // If a new image is uploaded, update the image field
+  if (req.file) {
+    listing.image = {
+      filename: req.file.filename,
+      url: `/uploads/${req.file.filename}`,
+    };
+  }
+
+  await listing.save();
   res.redirect(`/listings/${id}`);
 });
 
@@ -72,20 +123,6 @@ app.delete("/listings/:id", async (req, res) => {
   console.log(deletedListing);
   res.redirect("/listings");
 });
-
-// app.get("/testListing", async (req, res) => {
-//   let sampleListing = new Listing({
-//     title: "My New Villa",
-//     description: "By the beach",
-//     price: 1200,
-//     location: "Calangute, Goa",
-//     country: "India",
-//   });
-
-//   await sampleListing.save();
-//   console.log("sample was saved");
-//   res.send("successful testing");
-// });
 
 app.listen(8080,()=>{
     console.log("Server started on port 8080")

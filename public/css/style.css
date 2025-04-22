@@ -121,7 +121,7 @@ footer{
 .edit-btn{
    background-color: #3B82F6 !important;
    border: none !important;
-    transition: background-color 0.3s ease-in-out ;
+   transition: background-color 0.3s ease-in-out ;
 }
 
 .edit-btn:hover {
@@ -136,6 +136,26 @@ footer{
 
 .btns{
     display: flex;
+}
+
+.drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    color: #aaa;
+    position: relative;
+}
+  
+.drop-zone.dragover {
+    border-color: #000;
+    background-color: #f0f0f0;
+}
+
+#drop-zone-text {
+    font-size: 14px;
+    color: #aaa;
 }
 
 .show-card{

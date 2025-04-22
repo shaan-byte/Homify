@@ -5,6 +5,26 @@
     "express": "^5.1.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.13.2",
+    "multer": "^1.4.5-lts.2",
     "nodemon": "^3.1.9"
-  }
+  },
+  "name": "homify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaan-byte/Homify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/shaan-byte/Homify/issues"
+  },
+  "homepage": "https://github.com/shaan-byte/Homify#readme"
 }
