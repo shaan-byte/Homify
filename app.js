@@ -8,6 +8,7 @@ const methodOverride=require("method-override")
 const ejsMate=require("ejs-mate")
 const wrapAsync=require("./utils/wrapAsync.js")
 const ExpressError=require("./utils/ExpressError.js")
+const listingSchema=require("./schema.js")
 MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
 async function main(){await mongoose.connect(MONGO_URL);};
 
@@ -20,6 +21,7 @@ main().then(()=>{
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
@@ -27,6 +29,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/",async (req,res)=>{
     res.send("HEllo world")
 })
+
+const validateListing=(req,res,next)=>{
+    let { error } = listingSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+}
 
 //Index Route
 app.get("/listings",wrapAsync( async (req, res) => {
@@ -47,8 +59,7 @@ app.get("/listings/:id",wrapAsync( async (req, res) => {
 }));
 
 //Create Route
-app.post("/listings",wrapAsync( async (req, res) => {
-  if(!req.body || !req.body.listing) throw new ExpressError(400, "Send Valid data for listing");
+app.post("/listings",validateListing,wrapAsync( async (req, res) => {
   const listingData = req.body.listing;
   
   // If image URL is empty, use the default image
@@ -72,21 +83,20 @@ app.get("/listings/:id/edit",wrapAsync( async (req, res) => {
 }));
 
 //Update Route
-app.put("/listings/:id",wrapAsync( async (req, res) => {
-  if(req.body || !req.body.listing) throw new ExpressError(400, "Send Valid data for listing");
-  let { id } = req.params;
-  const listingData = req.body.listing;
-  
-  // If image URL is empty, use the default image
-  if (!listingData.image || !listingData.image.url || listingData.image.url.trim() === "") {
-    listingData.image = {
-      url: "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      filename: "defaultImage"
-    };
-  }
+app.put("/listings/:id",validateListing,wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const listingData = req.body.listing;
+    
+    // If image URL is empty, use the default image
+    if (!listingData.image || !listingData.image.url || listingData.image.url.trim() === "") {
+        listingData.image = {
+            url: "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+            filename: "defaultImage"
+        };
+    }
 
-  await Listing.findByIdAndUpdate(id, listingData);
-  res.redirect(`/listings/${id}`);
+    await Listing.findByIdAndUpdate(id, listingData);
+    res.redirect(`/listings/${id}`);
 }));
 
 //Delete Route
