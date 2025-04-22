@@ -169,7 +169,7 @@ footer{
   align-items: center;
   gap: 15px;
   font-family: "Plus Jakarta Sans", sans-serif; /* Match the global font */
-  font-size: 1rem; /* Match the global font size */
+  font-size: 1rem; 
 }
 
 .auth-buttons span {
@@ -187,12 +187,12 @@ footer{
 .auth-buttons .btn-signup,
 .auth-buttons .btn-login {
   text-decoration: none;
-  font-size: 1rem; /* Default font size */
+  font-size: 1rem; 
   font-weight: bold;
-  color: black; /* Default text color */
-  background-color: transparent; /* Remove background color */
-  padding: 0; /* Remove padding */
-  border: none; /* Remove border */
+  color: black; 
+  background-color: transparent; 
+  padding: 0; 
+  border: none; 
 }
 
 .auth-buttons .btn-signup:hover,
@@ -256,18 +256,26 @@ footer{
 /* Signup and Login Form Buttons */
 .signup-form .btn,
 .login-form .btn {
-  font-size: 0.875rem; /* Small font size */
+  font-size: 0.875rem; 
   font-weight: bold;
-  background-color: #28a745; /* Green color */
+  background-color: #28a745; 
   color: white;
   border: none;
-  padding: 0.4rem 0.8rem; /* Small padding */
+  padding: 0.4rem 0.8rem; 
   border-radius: 4px;
   cursor: pointer;
-  width: auto; /* Adjust width to fit content */
+  width: auto; 
 }
 
 .signup-form .btn:hover,
 .login-form .btn:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838; 
+}
+
+/* Map */
+#map {
+  width: 50vw; 
+  height: 45vh;
+  margin: 1rem auto; 
+  display: block; 
 }

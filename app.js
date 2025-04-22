@@ -1,20 +1,26 @@
-const express=require("express")
-const mongoose=require("mongoose")
-const ejs=require("ejs")
-const app=express();
-const Listing=require("./models/listing.js")
-const path=require("path")
-const methodOverride=require("method-override")
-const ejsMate=require("ejs-mate")
-const multer = require("multer")
-MONGO_URL="mongodb+srv://yuval:yuval123@cluster0.fjf8vzg.mongodb.net/"
-async function main(){await mongoose.connect(MONGO_URL);};
+const express = require("express");
+const mongoose = require("mongoose");
+const ejs = require("ejs");
+const app = express();
+const Listing = require("./models/listing.js");
+const path = require("path");
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
+const multer = require("multer");
+const axios = require("axios");
 
-main().then(()=>{
-    console.log("Connected to MongoDB")
-}).catch((err)=>{
-    console.log(err)
-})
+const MONGO_URL = "mongodb+srv://yuval:yuval123@cluster0.fjf8vzg.mongodb.net/";
+async function main() {
+  await mongoose.connect(MONGO_URL);
+}
+
+main()
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -35,57 +41,82 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.get("/",async (req,res)=>{
-  res.send('hey');
-})
+app.get("/", async (req, res) => {
+  res.send("hey");
+});
 
-//Index Route
+// Index Route
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index.ejs", { allListings });
 });
 
-//New Route
+// New Route
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
-//Show Route
+// Show Route
 app.get("/listings/:id", async (req, res) => {
-  
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { listing });
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    return res.status(404).send("Listing not found");
+  }
+  res.render("listings/show", { listing });
 });
 
-//Create Route
+// Create Route
 app.post("/listings", upload.single("image"), async (req, res) => {
   const { title, description, price, location, country } = req.body.listing;
-  const newListing = new Listing({
-    title,
-    description,
-    price,
-    location,
-    country,
-    image: {
-      filename: req.file ? req.file.filename : "defaultImage.jpg",
-      url: req.file
-        ? `/uploads/${req.file.filename}`
-        : "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    },
-  });
-  await newListing.save();
-  res.redirect("/listings");
+
+  try {
+    
+    const geoResponse = await axios.get("https://nominatim.openstreetmap.org/search", {
+      params: {
+        q: location,
+        format: "json",
+        limit: 1,
+      },
+      headers: {
+        "User-Agent": "HomifyApp/1.0 varke.vishu01@gmail.com", 
+      },
+    });
+
+    const coordinates = geoResponse.data[0]
+      ? [parseFloat(geoResponse.data[0].lon), parseFloat(geoResponse.data[0].lat)] 
+      : [0, 0]; 
+
+    const newListing = new Listing({
+      title,
+      description,
+      price,
+      location,
+      country,
+      coordinates,
+      image: {
+        filename: req.file ? req.file.filename : "defaultImage.jpg",
+        url: req.file
+          ? `/uploads/${req.file.filename}`
+          : "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      },
+    });
+
+    await newListing.save();
+    res.redirect("/listings");
+  } catch (err) {
+    console.error(`Error geocoding location "${location}":`, err.message);
+    res.status(500).send("Error creating listing. Please try again.");
+  }
 });
 
-//Edit Route
+// Edit Route
 app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/edit.ejs", { listing });
 });
 
-//Update Route
+// Update Route
 app.put("/listings/:id", upload.single("image"), async (req, res) => {
   let { id } = req.params;
 
@@ -116,7 +147,7 @@ app.put("/listings/:id", upload.single("image"), async (req, res) => {
   res.redirect(`/listings/${id}`);
 });
 
-//Delete Route
+// Delete Route
 app.delete("/listings/:id", async (req, res) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
@@ -129,7 +160,6 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  const { username, email, password } = req.body;
   // Handle user registration logic here
   res.send("User registered successfully!");
 });
@@ -141,11 +171,10 @@ app.get("/login", (req, res) => {
 
 // Login Form Submission Route
 app.post("/login", (req, res) => {
-  const { email, password } = req.body;
   // Handle user login logic here
   res.send("User logged in successfully!");
 });
 
-app.listen(8080,()=>{
-    console.log("Server started on port 8080")
-})
+app.listen(8080, () => {
+  console.log("Server started on port 8080");
+});
