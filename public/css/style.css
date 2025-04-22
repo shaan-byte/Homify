@@ -162,3 +162,112 @@ footer{
     padding-left: 0;
     padding-right: 0;
 }
+
+/* Auth buttons */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-family: "Plus Jakarta Sans", sans-serif; /* Match the global font */
+  font-size: 1rem; /* Match the global font size */
+}
+
+.auth-buttons span {
+  font-size: 1rem; /* Match the global font size */
+  font-weight: normal;
+}
+
+.auth-buttons .btn {
+  text-decoration: none;
+  font-size: 1rem; /* Match the global font size */
+  font-weight: bold;
+  color: black;
+}
+
+.auth-buttons .btn-signup,
+.auth-buttons .btn-login {
+  text-decoration: none;
+  font-size: 1rem; /* Default font size */
+  font-weight: bold;
+  color: black; /* Default text color */
+  background-color: transparent; /* Remove background color */
+  padding: 0; /* Remove padding */
+  border: none; /* Remove border */
+}
+
+.auth-buttons .btn-signup:hover,
+.auth-buttons .btn-login:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+/* Signup Form */
+.signup-container {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.signup-container h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.signup-form {
+  max-width: 400px;
+  width: 100%;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form .form-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.signup-form .form-control {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.signup-form .btn {
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.signup-form .btn:hover {
+  background-color: #218838;
+}
+
+/* Signup and Login Form Buttons */
+.signup-form .btn,
+.login-form .btn {
+  font-size: 0.875rem; /* Small font size */
+  font-weight: bold;
+  background-color: #28a745; /* Green color */
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem; /* Small padding */
+  border-radius: 4px;
+  cursor: pointer;
+  width: auto; /* Adjust width to fit content */
+}
+
+.signup-form .btn:hover,
+.login-form .btn:hover {
+  background-color: #218838; /* Darker green on hover */
+}

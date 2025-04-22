@@ -7,7 +7,7 @@ const path=require("path")
 const methodOverride=require("method-override")
 const ejsMate=require("ejs-mate")
 const multer = require("multer")
-MONGO_URL="kya be chintu ?"
+MONGO_URL="mongodb+srv://yuval:yuval123@cluster0.fjf8vzg.mongodb.net/"
 async function main(){await mongoose.connect(MONGO_URL);};
 
 main().then(()=>{
@@ -122,6 +122,28 @@ app.delete("/listings/:id", async (req, res) => {
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log(deletedListing);
   res.redirect("/listings");
+});
+
+app.get("/signup", (req, res) => {
+  res.render("signup.ejs");
+});
+
+app.post("/signup", (req, res) => {
+  const { username, email, password } = req.body;
+  // Handle user registration logic here
+  res.send("User registered successfully!");
+});
+
+// Login Page Route
+app.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
+
+// Login Form Submission Route
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  // Handle user login logic here
+  res.send("User logged in successfully!");
 });
 
 app.listen(8080,()=>{
