@@ -27,7 +27,7 @@ router.post("/",isLoggedIn, validateReview, wrapAsync(async (req, res) => {
 
 //delete reviews
 
-router.delete("/:reviewId",isLoggedIn, wrapAsync(async (req, res) => {
+router.delete("/:reviewId",isLoggedIn,isReviewAuthor, wrapAsync(async (req, res) => {
   let { id, reviewId } = req.params;
 
   await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
