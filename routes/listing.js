@@ -48,6 +48,7 @@ router.get("/",wrapAsync( async (req, res) => {
   
     const newListing = new Listing(listingData);
     await newListing.save();
+    req.flash("success", "Successfully created a new listing!");
     res.redirect("/listings");
   }));
   
@@ -72,6 +73,7 @@ router.get("/",wrapAsync( async (req, res) => {
       }
   
       await Listing.findByIdAndUpdate(id, listingData);
+      req.flash("success", "Successfully updated the listing!");
       res.redirect(`/listings/${id}`);
   }));
   
@@ -79,6 +81,7 @@ router.get("/",wrapAsync( async (req, res) => {
   router.delete("/:id",wrapAsync( async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
+    req.flash("success", "Successfully deleted the listing!");
     res.redirect("/listings");
   }));
 
