@@ -1,21 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync=require("../utils/wrapAsync.js")
-const ExpressError=require("../utils/ExpressError.js")
 const Listing = require("../models/listing.js")
-const {listingSchema}=require("../schema.js")
 const {isLoggedIn}=require("../middleware.js")
+const {isOwner}=require("../middleware.js")
+const {validateListing}=require("../middleware.js")
 
-
-const validateListing=(req,res,next)=>{
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-}
 
 //Index Route
 router.get("/",wrapAsync( async (req, res) => {
@@ -32,7 +22,10 @@ router.get("/",wrapAsync( async (req, res) => {
   //Show Route
   router.get("/:id",wrapAsync( async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id).populate({path:"reviews",populate:{
+      path:"author",
+    },
+  }).populate("owner");
     if(!listing) {
       req.flash("error", "Listing not found");
        res.redirect("/listings");
@@ -53,13 +46,14 @@ router.get("/",wrapAsync( async (req, res) => {
     }
   
     const newListing = new Listing(listingData);
+    newListing.owner = req.user._id; // Set the owner to the logged-in user
     await newListing.save();
     req.flash("success", "Successfully created a new listing!");
     res.redirect("/listings");
   }));
   
   //Edit Route
-  router.get("/:id/edit",isLoggedIn,wrapAsync( async (req, res) => {
+  router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync( async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     if(!listing) {
@@ -70,7 +64,7 @@ router.get("/",wrapAsync( async (req, res) => {
   }));
   
   //Update Route
-  router.put("/:id",isLoggedIn,validateListing,wrapAsync(async (req, res) => {
+  router.put("/:id",isLoggedIn,isOwner,validateListing,wrapAsync(async (req, res) => {
       let { id } = req.params;
       const listingData = req.body.listing;
       
@@ -88,7 +82,7 @@ router.get("/",wrapAsync( async (req, res) => {
   }));
   
   //Delete Route
-  router.delete("/:id",isLoggedIn,wrapAsync( async (req, res) => {
+  router.delete("/:id",isLoggedIn,isOwner,wrapAsync( async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     req.flash("success", "Successfully deleted the listing!");
