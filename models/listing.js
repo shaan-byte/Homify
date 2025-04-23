@@ -32,6 +32,7 @@ const listingSchema = new Schema({
       ref: "Review",
     },
   ],
+  
 });
 
 listingSchema.post("findOneAndDelete", async (listing)=> {

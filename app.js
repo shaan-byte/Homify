@@ -59,6 +59,7 @@ passport.deserializeUser(User.deserializeUser()) //unstore the user info from th
 app.use((req,res,next)=>{
   res.locals.success=req.flash("success")
   res.locals.error=req.flash("error")
+  res.locals.currUser=req.user //req.user is the user object that is stored in the session
   next()
 })
 
