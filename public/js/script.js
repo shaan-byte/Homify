@@ -17,3 +17,23 @@
       }, false)
     })
   })()
+
+
+// public/js/flashMessages.js
+
+document.addEventListener("DOMContentLoaded", () => {
+  const flashSuccess = document.getElementById('flash-success');
+  const flashError = document.getElementById('flash-error');
+
+  [flashSuccess, flashError].forEach(flash => {
+    if (flash) {
+      setTimeout(() => {
+        flash.classList.remove('show');
+        flash.classList.add('fade');
+        setTimeout(() => {
+          flash.remove();
+        }, 500); // after fading, remove from DOM
+      }, 3000); // after 3 seconds, start fading
+    }
+  });
+});
