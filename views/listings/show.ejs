@@ -83,6 +83,7 @@
           <h5 class="card-title"><%= review.author.username %></h5>
           <p class="card-text"><%= review.comment %></p>
           <p class="card-text"><%= review.rating %> stars</p>
+          <% if (currUser && review.author._id.toString() === currUser._id.toString()) { %>
           <form
             class="mb-3"
             method="POST"
@@ -90,6 +91,7 @@
           >
             <button class="btn btn-sm btn-dark">Delete</button>
           </form>
+          <% } %>
         </div>
       </div>
       <%}%>
