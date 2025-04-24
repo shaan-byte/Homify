@@ -14,12 +14,15 @@ const listingRouter=require("./routes/listing.js")
 const reviewRouter=require("./routes/review.js")
 const userRouter=require("./routes/user.js")
 const session=require("express-session")
+const MongoStore=require("connect-mongo")
 const flash=require("connect-flash")
 const passport=require("passport")
 const User=require("./models/user.js")
 const LocalStrategy=require("passport-local")
-MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
-async function main(){await mongoose.connect(MONGO_URL);};
+// MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
+
+const dbUrl=process.env.ATLASDB_URL
+async function main(){await mongoose.connect(dbUrl);};
 
 main().then(()=>{
     console.log("Connected to MongoDB")
@@ -35,7 +38,21 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
+
+const store=MongoStore.create({
+  mongoUrl:dbUrl,
+ crypto:{
+  secret:"mysupersecrecode",
+ },
+  touchAfter:24*3600, 
+})
+
+store.on("error",(err)=>{
+  console.log("Session store error",err)
+;
+})
 const sessionOptions={
+  store,
   secret:"mysupersecrecode",
   resave:false,
   saveUninitialized:true,
