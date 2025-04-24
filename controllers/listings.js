@@ -60,13 +60,26 @@ module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
   const listingData = req.body.listing;
 
+  // Get the current listing first
+  const currentListing = await Listing.findById(id);
+  
+  // If location has changed, update the geometry
+  if (currentListing.location !== listingData.location) {
+    let response = await geocodingClient.forwardGeocode({
+      query: listingData.location,
+      limit: 1
+    }).send();
+    
+    listingData.geometry = response.body.features[0].geometry;
+  }
+
   if (typeof req.file !== "undefined") {
     let url = req.file.path;
     let filename = req.file.filename;
     listingData.image = { url, filename };
   }
 
-  let listing = await Listing.findByIdAndUpdate(id, listingData,{ new: true });
+  let listing = await Listing.findByIdAndUpdate(id, listingData, { new: true });
 
   req.flash("success", "Successfully updated the listing!");
   res.redirect(`/listings/${id}`);
