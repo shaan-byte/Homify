@@ -46,9 +46,9 @@ const sessionOptions={
   }
 };
 
-app.get("/",async (req,res)=>{
-  res.send("HEllo world")
-})
+// app.get("/",async (req,res)=>{
+//   res.send("HEllo world")
+// })
 
 app.use(session(sessionOptions))
 app.use(flash())
