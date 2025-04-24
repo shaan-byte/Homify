@@ -1,6 +1,6 @@
 # 🏡 Homify - Hotel Booking Web App
 
-Homify is a full-stack **hotel and stay booking platform** inspired by modern booking services like Airbnb. Users can explore listings, filter by categories like beaches or mountains, and interact with dynamic features powered by real-time data and cloud services.
+Homify is a full-stack **hotel and stay booking platform** inspired by modern booking services like Airbnb. Users can explore listings, Add their listings,Edit,Review,Delete etc and interact with dynamic features powered by real-time data and cloud services.
 
 ---
 
@@ -9,7 +9,6 @@ Homify is a full-stack **hotel and stay booking platform** inspired by modern bo
 - 🖼️ Add, edit, and delete property listings
 - 🌍 Location-based search powered by Mapbox Geocoding API
 - 📸 Cloud image uploads via Cloudinary
-- 🧭 Category-based filtering (e.g., Mountains, Beach, Nature)
 - 💵 Price toggle with GST/tax calculations
 - 🧑‍🤝‍🧑 User authentication & authorization
 - ✨ Flash messages for feedback
