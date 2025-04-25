@@ -48,5 +48,5 @@ CLOUD_API_SECRET=yourCloudinaryAPISecret
 ```env</pre>
 
 ### 4.Run the Server
-node app.js
+```<code>node app.js</code>
 
