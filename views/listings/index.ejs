@@ -6,33 +6,116 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
       }
-      .filter{
+
+      .filter {
         text-align: center;
-        margin-right: 2rem;
-        margin-top: 2rem;
-        opacity: 0.7;
+        padding: 1rem;
+        border-radius: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       }
-      .filter:hover{
-        opacity: 1;
+
+      .filter:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background-color: #e9ecef;
         cursor: pointer;
       }
-      .filter>p{
-        font-size: 0.8rem;
-        font-weight:600
+
+      .filter i {
+        font-size: 1.5rem;
+        color: #495057;
+        margin-bottom: 0.5rem;
       }
-      #tax-info{
+
+      .filter p {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #495057;
+        margin: 0;
+      }
+
+      #tax-info {
         display: none;
+        color: #6c757d;
+        font-size: 0.85rem;
       }
-      .tax-toggle{
-        border: 1px solid black;
-        border-radius: 5rem;
+
+      .tax-toggle {
+        border: 1px solid #dee2e6;
+        border-radius: 2rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+      }
+
+      .tax-toggle:hover {
+        background-color: #e9ecef;
+      }
+
+      .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+      }
+
+      .listing-link {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .listing-card {
+        margin-bottom: 2rem;
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+
+      .listing-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      }
+
+      .card-img-top {
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .listing-card:hover .card-img-top {
+        transform: scale(1.05);
+      }
+
+      .card-img-overlay {
+        background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+      }
+
+      .card-body {
+        padding: 1.25rem;
+      }
+
+      .card-text {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .card-text b {
+        color: #212529;
+        font-size: 1.2rem;
+      }
+
+      .row {
+        margin: 0 -1rem;
+      }
+
+      .col {
         padding: 1rem;
-        height: 3.25rem;
-        margin-left: 12rem;
-        display: flex;
-        align-items: center;
-        background-color: blanchedalmond;
       }
     </style>
 
@@ -126,3 +209,4 @@
       });
     </script>
     
+
