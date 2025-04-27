@@ -183,23 +183,27 @@
     </form> -->
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
     <% for(let listing of allListings) { %>
-      <a href="/listings/<%=listing._id%>" class="listing-link">
-    <div class="card col listing-card" >
-      <img src="<%=listing.image[0].url%>" class="card-img-top" alt="listing image" style="height: 20rem;">
-      <div class="card-img-overlay"></div>
-      <div class="card-body">
-        <p class="card-text">
-          <b><%= listing.title %></b> <br>
-          <% if (listing.price) { %>
-            &#8377 <%= listing.price.toLocaleString("en-IN") %>/Night
-          <% } else { %>
-            &#8377 Price not set
-          <% } %>
-          <i id="tax-info">&nbsp; +18% GST</i>
-        </p>
+      <div class="col mb-4">
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+          <div class="listing-card">
+            <div class="listing-img-wrapper">
+              <img src="<%= listing.image[0].url %>" class="listing-img" alt="Listing image">
+              <div class="heart-icon">
+                <i class="fa-regular fa-heart"></i>
+              </div>
+            </div>
+            <div class="listing-body">
+              <div class="listing-title"><b><%= listing.title %></b></div>
+              <div class="listing-location"><%= listing.location %></div>
+              <div class="listing-price">
+                &#8377;<%= listing.price.toLocaleString("en-IN") %> total
+                <i id="tax-info">&nbsp; +18% GST</i>
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
-    </div>
-      </a>
+      
     <% } %>
     </div>
 
