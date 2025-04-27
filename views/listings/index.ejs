@@ -221,5 +221,31 @@
           }
         });
       });
+      const heartIcons = document.querySelectorAll(".heart-icon i");
+
+
+heartIcons.forEach((icon, index) => {
+  const isLiked = localStorage.getItem(`heart-${index}`) === "true";
+  if (isLiked) {
+    icon.classList.add("fa-solid");
+    icon.classList.remove("fa-regular");
+    icon.style.color = "red";
+  }
+});
+
+
+heartIcons.forEach((icon, index) => {
+  icon.addEventListener("click", (e) => {
+    e.preventDefault(); //prevent redirection
+
+    
+    const isLiked = icon.classList.toggle("fa-solid");
+    icon.classList.toggle("fa-regular");
+    icon.style.color = isLiked ? "red" : "#374151";
+
+  
+    localStorage.setItem(`heart-${index}`, isLiked);  // Store the like status in local storage
+  });
+});
     </script>
     
