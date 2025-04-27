@@ -21,6 +21,9 @@ router.route("/")
 
 //New Route
 router.get("/new", isLoggedIn,listingController.renderNewForm);
+
+//filter route
+router.get("/category/:category", wrapAsync(listingController.filterByCategory));
   
 
 //delete update and show route

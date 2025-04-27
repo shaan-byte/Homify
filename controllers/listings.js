@@ -91,3 +91,13 @@ module.exports.deleteListing = async (req, res) => {
   req.flash("success", "Successfully deleted the listing!");
   res.redirect("/listings");
 }
+
+module.exports.filterByCategory = async(req,res)=>{
+  const { category } = req.params;
+  const listings = await Listing.find({category: new RegExp(`^${category}$`, "i")}); //case insensitive search
+  if (!listings.length) {
+    req.flash("error", "No listings found for this category");
+    return res.redirect("/listings");
+  }
+  res.render("listings/index.ejs", { allListings: listings });
+}

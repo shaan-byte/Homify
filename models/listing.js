@@ -41,6 +41,20 @@ const listingSchema = new Schema({
       type: [Number], // [longitude, latitude]
       required: true
     }
+  },
+  category: {
+    type: String,
+    enum: ["Trending", "Peaceful",
+      "Mountains",
+      "Beach",
+      "Nature",
+      "Arctic",
+      "Village",
+      "Royal",
+      "Homely",
+      "Suburban",
+      "Desert"],
+    required: true,
   }
 });
 
