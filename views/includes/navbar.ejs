@@ -27,7 +27,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+        <a class="nav-link" href="/listings"><b><span class="fs-3">Uncover</span></b></a>
       </div>
       <div class="navbar-nav ms-auto">
         <form class="d-flex" role="search">
@@ -36,13 +36,13 @@
         </form>
       </div>
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Homify your Home</a>
+        <a class="nav-link" href="/listings/new"><button class="btn navbtn"><b>Your Sanctuary</b></button></a>
         <% if (!currUser) { %>
-        <a class="nav-link" href="/signup"><b>Sign Up</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
+        <a class="nav-link" href="/signup"><button class="btn navbtn"><b>Sign Up</b></button></a>
+        <a class="nav-link" href="/login"><button class="btn navbtn"><b>Login</b></button></a>
         <% } %>
         <% if (currUser) { %>
-        <a class="nav-link" href="/logout"><b>Log Out</b></a>
+        <a class="nav-link" href="/logout"><button class="btn navbtn"><b>Log Out</b></button></a>
         <% } %>
       </div>
     </div>

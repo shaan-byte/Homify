@@ -53,6 +53,17 @@ html, body {
     margin: 0 0.5rem !important;
     transition: color 0.3s ease-in-out !important;
   }
+
+  .navbtn{
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border-radius: 25px !important;
+    padding: 10px 20px !important;
+  }
+  .navbtn:hover{
+    background-color: #2563eb !important;
+    color: white !important;
+  }
   
   .nav-link:hover {
     color: #2563EB !important; /* Blue hover effect */
@@ -121,6 +132,18 @@ footer{
 
 /* Cards */
 /* Listing Card Airbnb Style */
+.show-card{
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.3s;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    object-fit: cover;
+}
+
 .listing-card {
     background: none;
     border: none;
@@ -172,11 +195,6 @@ footer{
     color: #111827;
 }
 
-.listing-distance,
-.listing-dates {
-    font-size: 0.9rem;
-    color: #6b7280;
-}
 
 .listing-price {
     font-weight: 600;
@@ -203,19 +221,15 @@ footer{
 /* button */
 
 .add-btn{
-   background-color: #f92634 !important;
    border: none !important;
    transition: background-color 0.3s ease-in-out ;
 }
 
-.add-btn:hover {
-    background-color: #d81b24 !important; 
-}
 
 .edit-btn{
-   background-color: #3B82F6 !important;
    border: none !important;
     transition: background-color 0.3s ease-in-out ;
+    padding-right: 20px !important;
 }
 
 .edit-btn:hover {
