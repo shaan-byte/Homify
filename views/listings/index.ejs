@@ -3,41 +3,95 @@
 
     <style>
       #filters {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between; /* smartly distribute items */
+          gap: 1.5rem;
+          padding: 1rem 2rem;
+          background-color: #f9fafb;
+          border-radius: 1rem;
+          margin-top: 1rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
-      .filter{
-        text-align: center;
-        margin-right: 2rem;
-        margin-top: 2rem;
-        opacity: 0.7;
+      
+      .filter {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: #ffffff;
+          padding: 0.75rem 1rem;
+          border-radius: 1rem;
+          transition: all 0.3s ease;
+          opacity: 0.8;
+          border: 1px solid #e5e7eb;
+          width: 5.5rem;
+          height: 5.5rem;
+          text-align: center;
       }
-      .filter:hover{
-        opacity: 1;
-        cursor: pointer;
+      
+      .filter:hover {
+          opacity: 1;
+          background-color: #e0f2fe;
+          transform: translateY(-4px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          border-color: #38bdf8;
       }
-      .filter>p{
-        font-size: 0.8rem;
-        font-weight:600
+      
+      .filter > div {
+          font-size: 1.5rem;
+          color: #3b82f6;
       }
-      #tax-info{
-        display: none;
+      
+      .filter > p {
+          margin-top: 0.4rem;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #374151;
       }
-      .tax-toggle{
-        border: 1px solid black;
-        border-radius: 5rem;
-        padding: 1rem;
-        height: 3.25rem;
-        margin-left: 12rem;
-        display: flex;
-        align-items: center;
-        background-color: blanchedalmond;
+      
+      .tax-toggle {
+          border: 2px solid #d1d5db;
+          border-radius: 50px;
+          padding: 0.75rem 1.25rem;
+          height: auto;
+          display: flex;
+          align-items: center;
+          background-color: #f1f5f9;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          transition: background-color 0.3s, box-shadow 0.3s;
+          flex-shrink: 0;
+          white-space: nowrap;
       }
+      
+      .tax-toggle:hover {
+          background-color: #e5e7eb;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          cursor: pointer;
+      }
+      
       #tax-info {
-  transition: opacity 0.3s ease;
-    }
-    </style>
+          display: none;
+          transition: opacity 0.3s ease;
+      }
+      
+      /* RESPONSIVE BEHAVIOR */
+      @media (max-width: 768px) {
+        #filters {
+          justify-content: center; /* center items on smaller devices */
+        }
+      
+        .tax-toggle {
+          margin: 0 auto;
+          width: 100%;
+          justify-content: center;
+          font-size: 0.9rem;
+        }
+      }
+      </style>
+      
 
      <div id="filters">
       <a href="/listings/category/Trending" style="text-decoration: none; color: inherit;">

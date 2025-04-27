@@ -39,8 +39,7 @@
     <% } %>
     <div class="card-body">
       <p class="card-text">
-        <b>Owned By</b><i> <%= listing.owner.username %></i>
-      </p>
+        <p><b>Owned By</b><i> <%= listing.owner.username %></i></p>
       <p><b>Description:</b><%= listing.description %></p>
       <p>
         <b>Price:</b>&#8377; 
@@ -53,6 +52,7 @@
       <p><b>Category:</b><%= listing.category %></p>
       <p><b>Location:</b><%= listing.location %></p>
       <p><b>Country:</b><%= listing.country %></p>
+      </p>
     </div>
   </div>
   <br />
@@ -60,7 +60,7 @@
   <div class="btns mb-5">
     <a
       href="/listings/<%= listing._id %>/edit"
-      class="btn btn-dark col-1 offset-3 edit-btn"
+      class="btn btn-dark col-2 offset-3 edit-btn"
       >Edit</a
     >
 
