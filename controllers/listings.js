@@ -28,19 +28,29 @@ module.exports.showListing = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res) => {
- let response=await geocodingClient.forwardGeocode({
+  let response = await geocodingClient.forwardGeocode({
     query: req.body.listing.location,
     limit: 1
-  })
-    .send()
+  }).send();
 
-  let url = req.file.path;
-  let filename = req.file.filename;
   const newListing = new Listing(req.body.listing);
-  newListing.owner = req.user._id; // Set the owner to the logged-in user
-  newListing.image = { url, filename }; // Set the image URL and filename from the uploaded file
+  newListing.owner = req.user._id;
+  
+  // Handle multiple images
+  if (req.files && req.files.length > 0) {
+    newListing.image = req.files.map(file => ({
+      url: file.path,
+      filename: file.filename
+    }));
+  } else if (req.file) {
+    // Fallback for single file upload
+    newListing.image = [{
+      url: req.file.path,
+      filename: req.file.filename
+    }];
+  }
 
-  newListing.geometry = response.body.features[0].geometry; // Set the geometry from the geocoding response
+  newListing.geometry = response.body.features[0].geometry;
   await newListing.save();
   req.flash("success", "Successfully created a new listing!");
   res.redirect("/listings");
@@ -58,7 +68,14 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  const listingData = req.body.listing;
+  const listingData = {
+    title: req.body.listing.title,
+    description: req.body.listing.description,
+    price: req.body.listing.price,
+    location: req.body.listing.location,
+    country: req.body.listing.country,
+    category: req.body.listing.category
+  };
 
   // Get the current listing first
   const currentListing = await Listing.findById(id);
@@ -73,16 +90,61 @@ module.exports.updateListing = async (req, res) => {
     listingData.geometry = response.body.features[0].geometry;
   }
 
-  if (typeof req.file !== "undefined") {
-    let url = req.file.path;
-    let filename = req.file.filename;
-    listingData.image = { url, filename };
+  // Handle images
+  if (req.files && req.files.length > 0) {
+    // If new images are uploaded, combine them with existing images
+    const newImages = req.files.map(file => ({
+      url: file.path,
+      filename: file.filename
+    }));
+    
+    // If there are images to delete, filter them out
+    if (req.body.listing.deleteImages) {
+      currentListing.image = currentListing.image.filter(img => 
+        !req.body.listing.deleteImages.includes(img.filename)
+      );
+    }
+    
+    // Combine existing images with new ones
+    listingData.image = [...currentListing.image, ...newImages];
+  } else if (req.file) {
+    // Single file upload case
+    const newImage = {
+      url: req.file.path,
+      filename: req.file.filename
+    };
+    
+    // If there are images to delete, filter them out
+    if (req.body.listing.deleteImages) {
+      currentListing.image = currentListing.image.filter(img => 
+        !req.body.listing.deleteImages.includes(img.filename)
+      );
+    }
+    
+    // Combine existing images with new one
+    listingData.image = [...currentListing.image, newImage];
+  } else if (req.body.listing.deleteImages) {
+    // Only deleting images, no new uploads
+    listingData.image = currentListing.image.filter(img => 
+      !req.body.listing.deleteImages.includes(img.filename)
+    );
+  } else {
+    // No image changes, keep existing images
+    listingData.image = currentListing.image;
   }
 
-  let listing = await Listing.findByIdAndUpdate(id, listingData, { new: true });
-
-  req.flash("success", "Successfully updated the listing!");
-  res.redirect(`/listings/${id}`);
+  try {
+    let listing = await Listing.findByIdAndUpdate(id, listingData, { 
+      new: true,
+      runValidators: true 
+    });
+    req.flash("success", "Successfully updated the listing!");
+    res.redirect(`/listings/${id}`);
+  } catch (err) {
+    console.error("Update error:", err);
+    req.flash("error", "Failed to update listing. Please try again.");
+    res.redirect(`/listings/${id}/edit`);
+  }
 }
 
 module.exports.deleteListing = async (req, res) => {

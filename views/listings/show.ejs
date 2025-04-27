@@ -8,18 +8,47 @@
     <h3><%=listing.title%></h3>
   </div>
   <div class="card col-6 offset-3 show-card listing-card">
-    <img
-      src="<%=listing.image.url%>"
-      class="card-img-top show-img"
-      alt="listing_image"
-    />
+    <% if (listing.image.length > 0) { %>
+      <div id="listingCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-indicators">
+          <% for(let i = 0; i < listing.image.length; i++) { %>
+            <button type="button" data-bs-target="#listingCarousel" data-bs-slide-to="<%= i %>" 
+              class="<%= i === 0 ? 'active' : '' %>" aria-current="<%= i === 0 ? 'true' : 'false' %>"></button>
+          <% } %>
+        </div>
+        <div class="carousel-inner">
+          <% for(let i = 0; i < listing.image.length; i++) { %>
+            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+              <img src="<%= listing.image[i].url %>" class="d-block w-100 show-img" alt="listing image">
+            </div>
+          <% } %>
+        </div>
+        <% if (listing.image.length > 1) { %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#listingCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#listingCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        <% } %>
+      </div>
+    <% } else { %>
+      <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing image">
+    <% } %>
     <div class="card-body">
       <p class="card-text">
         <b>Owned By</b><i> <%= listing.owner.username %></i>
       </p>
       <p><b>Description:</b><%= listing.description %></p>
       <p>
-        <b>Price:</b>&#8377; <%= listing.price.toLocaleString("en-IN") %>/Night
+        <b>Price:</b>&#8377; 
+        <% if (listing.price) { %>
+          <%= listing.price.toLocaleString("en-IN") %>/Night
+        <% } else { %>
+          Price not set
+        <% } %>
       </p>
       <p><b>Category:</b><%= listing.category %></p>
       <p><b>Location:</b><%= listing.location %></p>

@@ -23,45 +23,37 @@
     </div>
 
       <div class="mb-3">
-        <label for="image" class="form-label">Upload Listing image</label>
-      <input
-        name="listing[image][url]"
-        placeholder="Enter image URL/Link or leave empty for default image"
-        type="file"
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback">Please provide a image.</div>
-      <div class="valid-feedback">Looks good!</div> 
-      </div>
-      
-      <div class="row">
-      <div class="mb-3 col-md-4">
-        <label for="price" class="form-label">Price</label>
-      <input name="listing[price]" placeholder="Enter Price" type="number" class="form-control" required />
-      <div class="invalid-feedback">Provide a valid Price.</div>
-      <div class="valid-feedback">Looks good!</div>
-      </div>
-
-      <div class="mb-3 col-md-8">
-        <label for="country" class="form-label">Country</label>
-      <input name="listing[country]" placeholder="Enter Country" type="text" class="form-control" required />
-      <div class="invalid-feedback">Provide a valid Country.</div>
-      <div class="valid-feedback">Looks good!</div>
-      </div>
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" name="listing[location]" required>
+        <div class="invalid-feedback">Please provide a location.</div>
+        <div class="valid-feedback">Looks good!</div>
       </div>
 
       <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-      <input
-        name="listing[location]"
-        placeholder="Enter Location"
-        type="text"
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback">Provide a valid Location.</div>
-      <div class="valid-feedback">Looks good!</div>
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" name="listing[country]" required>
+        <div class="invalid-feedback">Please provide a country.</div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price per Night (₹)</label>
+        <input type="number" class="form-control" id="price" name="listing[price]" min="0" required>
+        <div class="invalid-feedback">Please provide a valid price.</div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Images</label>
+        <div id="image-upload-container">
+          <div class="image-upload-field mb-2">
+            <input type="file" class="form-control" name="listing[image][url]" accept="image/*" required>
+            <div class="invalid-feedback">Please upload at least one image.</div>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm mt-2" id="add-image-btn">Add Another Image</button>
+        <button type="button" class="btn btn-danger btn-sm mt-2 ms-2" id="remove-image-btn" style="display: none;">Remove Last Image</button>
       </div>
 
       <div class="mb-3">
@@ -90,3 +82,36 @@
     <br/>
     </div>
   </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const imageContainer = document.getElementById('image-upload-container');
+    const addImageBtn = document.getElementById('add-image-btn');
+    const removeImageBtn = document.getElementById('remove-image-btn');
+    let imageCount = 1;
+
+    addImageBtn.addEventListener('click', function() {
+      const newField = document.createElement('div');
+      newField.className = 'image-upload-field mb-2';
+      newField.innerHTML = `
+        <input type="file" class="form-control" name="listing[image][url]" accept="image/*">
+        <div class="invalid-feedback">Please upload a valid image.</div>
+        <div class="valid-feedback">Looks good!</div>
+      `;
+      imageContainer.appendChild(newField);
+      imageCount++;
+      removeImageBtn.style.display = 'inline-block';
+    });
+
+    removeImageBtn.addEventListener('click', function() {
+      if (imageCount > 1) {
+        imageContainer.removeChild(imageContainer.lastChild);
+        imageCount--;
+        addImageBtn.style.display = 'inline-block';
+      }
+      if (imageCount <= 1) {
+        removeImageBtn.style.display = 'none';
+      }
+    });
+  });
+</script>

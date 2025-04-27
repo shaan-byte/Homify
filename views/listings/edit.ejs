@@ -6,64 +6,133 @@
     <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
-      <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required/>
-      <div class="invalid-feedback">Please provide a title.</div>
-      <div class="valid-feedback">Looks good!</div>
+        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required/>
+        <div class="invalid-feedback">Please provide a title.</div>
+        <div class="valid-feedback">Looks good!</div>
       </div>
 
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-      <textarea class="form-control" name="listing[description]" required>
-<%= listing.description %> </textarea>
-      <div class="invalid-feedback">Please provide a Description.</div>
-      <div class="valid-feedback">Looks good!</div> 
+        <textarea class="form-control" name="listing[description]" required><%= listing.description %></textarea>
+        <div class="invalid-feedback">Please provide a Description.</div>
+        <div class="valid-feedback">Looks good!</div> 
       </div>
 
       <div class="mb-3">
-        <label for="image" class="form-label">Upload New Image</label>
-      <input name="listing[image][url]" type="file" class="form-control" />
-      <div class="valid-feedback">Looks good!</div>  
+        <label class="form-label">Current Images</label>
+        <div class="row mb-3">
+          <% if (listing.image && listing.image.length > 0) { %>
+            <% for(let i = 0; i < listing.image.length; i++) { %>
+              <div class="col-md-4 mb-2">
+                <div class="card">
+                  <img src="<%= listing.image[i].url %>" class="card-img-top" alt="Listing image">
+                  <div class="card-body p-2">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="listing[deleteImages][]" value="<%= listing.image[i].filename %>" id="deleteImage<%= i %>">
+                      <label class="form-check-label" for="deleteImage<%= i %>">Delete this image</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          <% } else { %>
+            <p>No images uploaded yet.</p>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Add New Images</label>
+        <div id="image-upload-container">
+          <div class="image-upload-field mb-2">
+            <input type="file" class="form-control" name="listing[image][url]" accept="image/*">
+            <div class="invalid-feedback">Please upload a valid image.</div>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm mt-2" id="add-image-btn">Add Another Image</button>
+        <button type="button" class="btn btn-danger btn-sm mt-2 ms-2" id="remove-image-btn" style="display: none;">Remove Last Image</button>
       </div>
 
       <div class="row">
-      <div class="mb-3 col-md-4">
-        <label for="price" class="form-label">Price</label>
-      <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required/>
-      <div class="invalid-feedback">Provide a valid Price.</div>
-      <div class="valid-feedback">Looks good!</div>  
-    </div>
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price per Night (₹)</label>
+          <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" min="0" required/>
+          <div class="invalid-feedback">Provide a valid Price.</div>
+          <div class="valid-feedback">Looks good!</div>  
+        </div>
 
-      <div class="mb-3 col-md-8">
-        <label for="country" class="form-label">Country</label>
-      <input
-        name="listing[country]"
-        value="<%= listing.country %>"
-        type="text"
-        class="form-control"
-        required
-        />
-        <div class="invalid-feedback">Provide a valid Country.</div>
-      <div class="valid-feedback">Looks good!</div>
-      </div>
-      
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-label">Country</label>
+          <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required/>
+          <div class="invalid-feedback">Provide a valid Country.</div>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
       </div>
 
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
-      <input
-        name="listing[location]"
-        value="<%= listing.location %>"
-        type="text"
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback">Provide a valid Location.</div>
-      <div class="valid-feedback">Looks good!</div>
+        <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required/>
+        <div class="invalid-feedback">Provide a valid Location.</div>
+        <div class="valid-feedback">Looks good!</div>
       </div>
-      <button class="btn btn-dark edit-btn mb-3 mt-3">Edit</button>
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select name="listing[category]" id="category" class="form-select" required>
+          <option value="" disabled>Select a Category</option>
+          <option value="Trending" <%= listing.category === 'Trending' ? 'selected' : '' %>>Trending</option>
+          <option value="Peaceful" <%= listing.category === 'Peaceful' ? 'selected' : '' %>>Peaceful</option>
+          <option value="Mountains" <%= listing.category === 'Mountains' ? 'selected' : '' %>>Mountains</option>
+          <option value="Beach" <%= listing.category === 'Beach' ? 'selected' : '' %>>Beach</option>
+          <option value="Nature" <%= listing.category === 'Nature' ? 'selected' : '' %>>Nature</option>
+          <option value="Arctic" <%= listing.category === 'Arctic' ? 'selected' : '' %>>Arctic</option>
+          <option value="Village" <%= listing.category === 'Village' ? 'selected' : '' %>>Village</option>
+          <option value="Royal" <%= listing.category === 'Royal' ? 'selected' : '' %>>Royal</option>
+          <option value="Homely" <%= listing.category === 'Homely' ? 'selected' : '' %>>Homely</option>
+          <option value="Suburban" <%= listing.category === 'Suburban' ? 'selected' : '' %>>Suburban</option>
+          <option value="Desert" <%= listing.category === 'Desert' ? 'selected' : '' %>>Desert</option>
+        </select>
+        <div class="invalid-feedback">Please select a Category.</div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <button class="btn btn-dark edit-btn mb-3 mt-3">Update Listing</button>
     </form>
     <br/>
   </div> 
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const imageContainer = document.getElementById('image-upload-container');
+    const addImageBtn = document.getElementById('add-image-btn');
+    const removeImageBtn = document.getElementById('remove-image-btn');
+    let imageCount = 1;
+
+    addImageBtn.addEventListener('click', function() {
+      const newField = document.createElement('div');
+      newField.className = 'image-upload-field mb-2';
+      newField.innerHTML = `
+        <input type="file" class="form-control" name="listing[image][url]" accept="image/*">
+        <div class="invalid-feedback">Please upload a valid image.</div>
+        <div class="valid-feedback">Looks good!</div>
+      `;
+      imageContainer.appendChild(newField);
+      imageCount++;
+      removeImageBtn.style.display = 'inline-block';
+    });
+
+    removeImageBtn.addEventListener('click', function() {
+      if (imageCount > 1) {
+        imageContainer.removeChild(imageContainer.lastChild);
+        imageCount--;
+      }
+      if (imageCount <= 1) {
+        removeImageBtn.style.display = 'none';
+      }
+    });
+  });
+</script>
 
   

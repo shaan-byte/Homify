@@ -9,31 +9,31 @@ const listingController = require("../controllers/listings.js")
 const multer  = require('multer')
 const {storage}=require("../cloudconfig.js")
 
-const upload = multer({ storage})
+const upload = multer({ storage: storage })
 
 
 
 //Index Route and create route
 router.route("/")
 .get(wrapAsync(listingController.index))
-.post(isLoggedIn,validateListing,upload.single("listing[image][url]"),wrapAsync(listingController.createListing)
-);
+.post(isLoggedIn, validateListing, upload.array("listing[image][url]"), wrapAsync(listingController.createListing));
 
 //New Route
-router.get("/new", isLoggedIn,listingController.renderNewForm);
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 //filter route
 router.get("/category/:category", wrapAsync(listingController.filterByCategory));
   
 
 //delete update and show route
-router.route("/:id").get(wrapAsync(listingController.showListing))
-.put(isLoggedIn,isOwner,upload.single("listing[image][url]"),validateListing,wrapAsync(listingController.updateListing)).
-delete(isLoggedIn,isOwner,wrapAsync(listingController.deleteListing))
+router.route("/:id")
+.get(wrapAsync(listingController.showListing))
+.put(isLoggedIn, isOwner, upload.array("listing[image][url]"), validateListing, wrapAsync(listingController.updateListing))
+.delete(isLoggedIn, isOwner, wrapAsync(listingController.deleteListing));
   
   
   //Edit Route
-  router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync(listingController.renderEditForm));
+  router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
   
 
   
