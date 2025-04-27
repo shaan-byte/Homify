@@ -28,8 +28,15 @@
                   <img src="<%= listing.image[i].url %>" class="card-img-top" alt="Listing image">
                   <div class="card-body p-2">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="listing[deleteImages][]" value="<%= listing.image[i].filename %>" id="deleteImage<%= i %>">
-                      <label class="form-check-label" for="deleteImage<%= i %>">Delete this image</label>
+                      <input class="form-check-input delete-checkbox" type="checkbox" 
+                        name="listing[deleteImages][]" 
+                        value="<%= listing.image[i].filename %>" 
+                        id="deleteImage<%= i %>"
+                        <%= listing.image.length === 1 ? 'disabled' : '' %>>
+                      <label class="form-check-label" for="deleteImage<%= i %>">
+                        Delete this image
+                        <%= listing.image.length === 1 ? '(Cannot delete last image)' : '' %>
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -108,7 +115,30 @@
     const imageContainer = document.getElementById('image-upload-container');
     const addImageBtn = document.getElementById('add-image-btn');
     const removeImageBtn = document.getElementById('remove-image-btn');
+    const deleteCheckboxes = document.querySelectorAll('.delete-checkbox');
     let imageCount = 1;
+
+    // Prevent deleting all images
+    deleteCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const checkedBoxes = document.querySelectorAll('.delete-checkbox:checked');
+        const totalImages = document.querySelectorAll('.delete-checkbox').length;
+        
+        if (checkedBoxes.length >= totalImages - 1) {
+          // If only one image would remain, disable the last checkbox
+          deleteCheckboxes.forEach(cb => {
+            if (!cb.checked) {
+              cb.disabled = true;
+            }
+          });
+        } else {
+          // Re-enable all checkboxes if more than one image would remain
+          deleteCheckboxes.forEach(cb => {
+            cb.disabled = false;
+          });
+        }
+      });
+    });
 
     addImageBtn.addEventListener('click', function() {
       const newField = document.createElement('div');

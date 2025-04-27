@@ -98,11 +98,19 @@ module.exports.updateListing = async (req, res) => {
       filename: file.filename
     }));
     
-    // If there are images to delete, filter them out
+    // If there are images to delete, filter them out but ensure at least one remains
     if (req.body.listing.deleteImages) {
-      currentListing.image = currentListing.image.filter(img => 
+      const remainingImages = currentListing.image.filter(img => 
         !req.body.listing.deleteImages.includes(img.filename)
       );
+      
+      // Only update if we're not deleting all images
+      if (remainingImages.length > 0 || newImages.length > 0) {
+        currentListing.image = remainingImages;
+      } else {
+        req.flash("error", "Cannot delete all images. At least one image is required.");
+        return res.redirect(`/listings/${id}/edit`);
+      }
     }
     
     // Combine existing images with new ones
@@ -114,20 +122,36 @@ module.exports.updateListing = async (req, res) => {
       filename: req.file.filename
     };
     
-    // If there are images to delete, filter them out
+    // If there are images to delete, filter them out but ensure at least one remains
     if (req.body.listing.deleteImages) {
-      currentListing.image = currentListing.image.filter(img => 
+      const remainingImages = currentListing.image.filter(img => 
         !req.body.listing.deleteImages.includes(img.filename)
       );
+      
+      // Only update if we're not deleting all images
+      if (remainingImages.length > 0) {
+        currentListing.image = remainingImages;
+      } else {
+        req.flash("error", "Cannot delete all images. At least one image is required.");
+        return res.redirect(`/listings/${id}/edit`);
+      }
     }
     
     // Combine existing images with new one
     listingData.image = [...currentListing.image, newImage];
   } else if (req.body.listing.deleteImages) {
     // Only deleting images, no new uploads
-    listingData.image = currentListing.image.filter(img => 
+    const remainingImages = currentListing.image.filter(img => 
       !req.body.listing.deleteImages.includes(img.filename)
     );
+    
+    // Ensure at least one image remains
+    if (remainingImages.length > 0) {
+      listingData.image = remainingImages;
+    } else {
+      req.flash("error", "Cannot delete all images. At least one image is required.");
+      return res.redirect(`/listings/${id}/edit`);
+    }
   } else {
     // No image changes, keep existing images
     listingData.image = currentListing.image;
