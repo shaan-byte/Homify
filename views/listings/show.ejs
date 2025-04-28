@@ -109,10 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <i class="fas fa-user"></i>
             <b>Owner: <%= listing.owner.username %></b>
             <% if(currUser && !currUser._id.equals(listing.owner._id)) { %>
-              <button class="like-btn" data-listing-id="<%= listing._id %>">
-                <i class="fas fa-heart <%= listing.likes.includes(currUser._id) ? 'liked' : '' %>"></i>
-                <span class="like-count"><%= listing.likes.length %></span>
-              </button>
+              <!-- Like button removed as likes are only on index page -->
             <% } %>
           </div>
 
