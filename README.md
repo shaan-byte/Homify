@@ -1,42 +1,62 @@
-# 🏡 Homify - Hotel Booking Web App
-
-Homify is a full-stack **hotel and stay booking platform** inspired by modern booking services like Airbnb. Users can explore listings, Add their listings,Edit,Review,Delete etc and interact with dynamic features powered by real-time data and cloud services.
-
+🏡 Homify - Hotel Booking Web App
+Homify is a full-stack hotel and stay booking platform, inspired by modern booking services 
+Users can explore listings, add their own properties, edit, review, delete, and interact with dynamic features powered by real-time data and cloud services.
 ---
 
-## 🚀 Features
+🚀 Features
 
-- 🖼️ Add, edit, and delete property listings
-- 🌍 Location-based search powered by Mapbox Geocoding API
-- 📸 Cloud image uploads via Cloudinary
-- 💵 Price toggle with GST/tax calculations
-- 🧑‍🤝‍🧑 User authentication & authorization
-- ✨ Flash messages for feedback
-- 🧹 Clean and modular MVC architecture
-- 📄 RESTful APIs for scalable and organized backend
+🖼️ Add, edit, and delete property listings (CRUD Operations)
+
+🔎 Search functionality to find listings based on name, location, or keywords
+
+🏷️ Category-based listings for easy browsing (e.g., beach stays, mountain retreats, city hotels)
+
+🌍 Location-based services powered by Mapbox Geocoding API
+
+📸 Cloud image uploads and storage via Cloudinary
+
+💵 Price toggle with GST/Tax calculations
+
+🛡️ Server-side validation for clean and secure data
+
+🧹 Clean and modular MVC architecture
+
+🧑‍🤝‍🧑 User authentication & authorization using Passport.js
+
+✨ Flash messages for real-time user feedback
+
+📄 RESTful APIs for structured backend operations
 
 ---
+🛠️ Technologies Used
 
-## 🛠️ Technologies Used
+Frontend: HTML, CSS, JavaScript, Bootstrap, EJS
 
-- **Frontend**: HTML, CSS, JavaScript, Bootstrap, EJS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB (Atlas)
-- **Templating Engine**: EJS
-- **Cloud Storage**: Cloudinary
-- **Maps & Location**: Mapbox Geocoding API
-- **Authentication**: Passport.js with sessions
-- **Framework Structure**: MVC (Model-View-Controller)
+Backend: Node.js, Express.js
+
+Database: MongoDB Atlas
+
+Templating Engine: EJS
+
+Authentication: Passport.js
+
+Maps & Location Services: Mapbox Geocoding API
+
+Cloud Storage: Cloudinary
+
+Architecture Pattern: MVC (Model-View-Controller)
 
 ---
 
 ## 📦 Installation & Setup (Run Locally)
 
 ### 1. Clone the Repository
+<pre> git clone URL </pre>
 
 ### 2. Install the Dependencies
+<pre> npm install </pre>
 
-### 3.Configure Environment Variables
+### 3.Configure Environment Variables in root directory
 <pre>```env
 SECRET=yourSessionSecret
 ATLASDB_URL=yourMongoDBAtlasURL
