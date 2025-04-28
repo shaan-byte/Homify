@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/ca0fccf3-7f12-4296-8a30-4a22d2eedd08)
+![image](https://github.com/user-attachments/assets/43df3b75-ea0e-42fd-b1f6-7e561a55af58)
 🏡 Homify - Hotel Booking Web App
 Homify is a full-stack hotel and stay booking platform, inspired by modern booking services 
 Users can explore listings, add their own properties, edit, review, delete, and interact with dynamic features powered by real-time data and cloud services.
