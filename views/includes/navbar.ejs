@@ -1,50 +1,205 @@
 <style>
-.btn-search{
-  background-color: green;
-  color: white;
-  border-radius: 25px;
-  padding: 10px 20px;
-}
-.btn-search:hover{
-  background-color: darkgreen;
-  color: white;
-}
-.btn-search i{
-  display: inline;
-  margin-right: 10px;
-}
-.search-inp{
-  border-radius: 25px;
-  padding: 0.5rem 3rem 0.5rem 3rem;
-}
-</style>
-
-<nav class="navbar navbar-expand-md bg-light border-bottom shadow-sm fixed-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-house-chimney"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings"><b><span class="fs-3">Uncover</span></b></a>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2 search-inp" type="search" placeholder="Search Destinations" aria-label="Search">
-          <button class="btn btn-search" type="submit"> <i class="fa-solid fa-magnifying-glass"></i>Search</button>
-        </form>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new"><button class="btn navbtn"><b>Your Sanctuary</b></button></a>
-        <% if (!currUser) { %>
-        <a class="nav-link" href="/signup"><button class="btn navbtn"><b>Sign Up</b></button></a>
-        <a class="nav-link" href="/login"><button class="btn navbtn"><b>Login</b></button></a>
-        <% } %>
-        <% if (currUser) { %>
-        <a class="nav-link" href="/logout"><button class="btn navbtn"><b>Log Out</b></button></a>
-        <% } %>
+  .btn-search{
+    background-color: green;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 20px;
+  }
+  .btn-search:hover{
+    background-color: darkgreen;
+    color: white;
+  }
+  .btn-search i{
+    display: inline;
+    margin-right: 10px;
+  }
+  .search-inp{
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+  }
+  
+  /* Home Icon Animation Styles */
+  .navbar-brand {
+    position: relative;
+    padding: 0.7rem;
+    margin-right: 0;
+  }
+  
+  .navbar-nav {
+    margin-left: -0.5rem;
+  }
+  
+  .nav-link {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .home-icon {
+    font-size: 2.2rem;
+    color: #f7291f;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  .navbar-brand:hover .home-icon {
+    animation: homeAnimation 0.5s ease-in-out;
+    color: #24ce1ca8;
+  }
+  
+  @keyframes homeAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2) translateY(-2px);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Smoke animation for chimney */
+  .navbar-brand::after {
+    content: '~';
+    position: absolute;
+    top: 2px;
+    left: 55%;
+    font-size: 1.2rem;
+    color: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-brand:hover::after {
+    animation: smokeAnimation 1s ease-in-out infinite;
+    color: #95a5a6;
+  }
+  
+  @keyframes smokeAnimation {
+    0% {
+      transform: translateY(0) translateX(-50%) scale(1);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(-10px) translateX(-40%) scale(1.2);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(-20px) translateX(-30%) scale(1.4);
+      opacity: 0;
+    }
+  }
+  
+  /* Theme Toggler Styles */
+  .theme-toggler {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    
+    margin: 0.7rem 1rem 0.3rem;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: 2px;
+  }
+  
+  .theme-toggler:hover {
+    transform: rotate(30deg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  [data-theme="dark"] .theme-toggler {
+    color: #fff;
+  }
+  
+  [data-theme="dark"] {
+    background-color: #2d2d2d;
+    color: #fff;
+  }
+  
+  [data-theme="dark"] .navbar {
+    background-color: #2d2d2d !important;
+    border-bottom: 1px solid #444;
+  }
+  
+  [data-theme="dark"] .nav-link {
+    color: #fff !important;
+  }
+  
+  [data-theme="dark"] .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #444;
+  }
+  
+  [data-theme="dark"] .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  [data-theme="dark"] .btn-search {
+    background-color: #2ecc71;
+  }
+  
+  [data-theme="dark"] .btn-search:hover {
+    background-color: #27ae60;
+  }
+  
+  [data-theme="dark"] .home-icon {
+    color: #2ecc71;
+  }
+  
+  [data-theme="dark"] .navbar-brand:hover .home-icon {
+    color: #f7291f;
+  }
+  
+  [data-theme="dark"] .btn-navbtn {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  [data-theme="dark"] .btn-navbtn:hover {
+    background-color: #444;
+  }
+  </style>
+  
+  <nav class="navbar navbar-expand-md bg-light border-bottom shadow-lg fixed-top" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);" data-theme="light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <i class="fa-solid fa-house-chimney home-icon"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/listings"><b><span class="fs-3">Uncover</span></b></a>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <form class="d-flex" role="search" action="/listings/search" method="GET">
+            <input class="form-control me-2 search-inp" type="search" name="search" placeholder="Search Destinations" aria-label="Search">
+            <button class="btn btn-search" type="submit"> <i class="fa-solid fa-magnifying-glass"></i>Search</button>
+          </form>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <button class="theme-toggler" id="themeToggler">
+            <i class="fas fa-moon"></i>
+          </button>
+          <a class="nav-link" href="/listings/new"><button class="btn navbtn">Add Your Sanctuary</button></a>
+          <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><button class="btn navbtn"><b>Sign Up</b></button></a>
+          <a class="nav-link" href="/login"><button class="btn navbtn"><b>Login</b></button></a>
+          <% } %>
+          <% if (currUser) { %>
+          <a class="nav-link" href="/logout"><button class="btn navbtn"><b>Log Out</b></button></a>
+          <% } %>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>

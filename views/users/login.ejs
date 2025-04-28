@@ -1,18 +1,81 @@
 <%layout("/layouts/boilerplate") %>
-<div class="row mt-3">
-    <h1 class="col-6 offset-3">Login</h1>
-  <div class="col-6 offset-3">
-    <form action="/login" method="POST" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="username" class="form-label"><b>Username</b></label>
-            <input name="username" id="username"  type="text" class="form-control" required/>
-            </div>
+<style>
+  .auth-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
 
-                <div class="mb-3">
-                    <label for="password" class="form-label"><b>Password</b></label>
-                    <input name="password" id="password"  type="password" class="form-control" required/>
-                    </div>
-                    <button class="btn btn-success">Login</button>
-    </form>
+  h1 {
+    color: var(--text-color);
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .form-label {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-control {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    background-color: var(--input-bg);
+    border-color: #2ecc71;
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25);
+  }
+
+  .btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+    transform: translateY(-2px);
+  }
+
+  [data-theme="dark"] .form-control:focus {
+    background-color: var(--input-bg);
+  }
+</style>
+<div class="row mt-5">
+  <div class="col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+    <div class="auth-container">
+      <h1 class="col-6 offset-3">Login</h1>
+      <form action="/login" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label"><b>Username</b></label>
+          <input name="username" id="username"  type="text" class="form-control" required/>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label"><b>Password</b></label>
+          <input name="password" id="password"  type="password" class="form-control" required/>
+        </div>
+        <button class="btn btn-success">Login</button>
+      </form>
     </div>
-    </div>
+  </div>
+</div>

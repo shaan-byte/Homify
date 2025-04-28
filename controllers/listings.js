@@ -5,7 +5,7 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
+  res.render("listings/index.ejs", {allListings });
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -186,4 +186,29 @@ module.exports.filterByCategory = async(req,res)=>{
     return res.redirect("/listings");
   }
   res.render("listings/index.ejs", { allListings: listings });
+}
+
+module.exports.searchListings = async (req, res) => {
+    const { search } = req.query;
+    if (!search) {
+        req.flash("error", "Please enter a search term");
+        return res.redirect("/listings");
+    }
+    
+    // Search in title, description, location, and country
+    const listings = await Listing.find({
+        $or: [
+            { title: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } },
+            { location: { $regex: search, $options: 'i' } },
+            { country: { $regex: search, $options: 'i' } }
+        ]
+    });
+    
+    if (!listings.length) {
+        req.flash("error", "No listings found matching your search");
+        return res.redirect("/listings");
+    }
+    
+    res.render("listings/index.ejs", { allListings: listings });
 }

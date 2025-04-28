@@ -94,6 +94,10 @@ app.use((req,res,next)=>{
 //   res.send(registeredUserr)
 // })
 
+app.get('/', (req, res) => {
+  res.render('hero.ejs');
+});
+
 app.use("/listings", listingRouter); // /listings is the base route for all the routes in listing.js
 app.use("/listings/:id/reviews",reviewRouter) // /listings/:id/reviews is the base route for all the routes in review.js
 app.use("/", userRouter); // / is the base route for all the routes in user.js

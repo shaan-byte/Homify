@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homify</title>
+    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+    <link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <div class="hero-container" id="heroScreen">
+            <div class="hero-background">
+                <div class="parallax-bg"></div>
+                <div class="overlay"></div>
+                <div class="particles"></div>
+            </div>
+
+            <div class="floating-cards">
+                <div class="card" style="--delay: 1">
+                    <div class="card-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3>Premium Hotels</h3>
+                    <p>500+ Luxury Hotels</p>
+                    <div class="card-glow"></div>
+                </div>
+                
+                
+                <div style="width: 500px; pointer-events: none;"></div>
+                
+                <div class="card" style="--delay: 2">
+                    <div class="card-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Best Rated</h3>
+                    <p>4.8+ Average Rating</p>
+                    <div class="card-glow"></div>
+                </div>
+            </div>
+
+            <div class="hero-content">
+                <div class="logo">
+                    <span class="logo-text">Homify</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <h1 class="hero-title">
+                    <span class="text-animate">Tech</span>
+                    <span class="text-animate">Driven Shelter</span>
+                    <span class="text-animate">Solution</span>
+                </h1>
+                <p class="hero-subtitle">Luxury accommodations tailored to your dreams</p>
+                
+                <button class="get-started-button" id="getStartedBtn">
+                    Get Started
+                    <div class="button-glow"></div>
+                </button>
+            </div>
+        </div>
+
+        <div class="content-screen" id="contentScreen">
+            <div class="content-container">
+                <h2>Welcome to Homify</h2>
+                <p>Your journey to luxury accommodations begins here</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="/js/hero.js"></script>
+</body>
+</html> 

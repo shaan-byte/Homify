@@ -23,6 +23,9 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 //filter route
 router.get("/category/:category", wrapAsync(listingController.filterByCategory));
+
+//search route
+router.get("/search", wrapAsync(listingController.searchListings));
   
 
 //delete update and show route
@@ -35,6 +38,8 @@ router.route("/:id")
   //Edit Route
   router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
   
+
+
 
   
 

@@ -1,7 +1,94 @@
 <%layout("/layouts/boilerplate") %>
+<style>
+  .form-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  h3 {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .form-label {
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  .form-control, .form-select {
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus, .form-select:focus {
+    background-color: var(--input-bg);
+    border-color: #2ecc71;
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25);
+  }
+
+  .form-control::placeholder {
+    color: var(--text-muted);
+  }
+
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+  }
+
+  .btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    transition: all 0.3s ease;
+  }
+
+  .btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+  }
+
+  .add-btn {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .add-btn:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .form-control:disabled,
+  [data-theme="dark"] .form-control[readonly] {
+    background-color: var(--input-bg);
+    opacity: 0.7;
+  }
+
+  [data-theme="dark"] .form-select option {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+  }
+</style>
   <div class="row mt-3">
     <div class="col-8 offset-2">
-      <br/>
+    <div class="form-container">
     <h3>Create a New Listing</h3>
     <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
       <div class="mb-3">
@@ -79,7 +166,7 @@
 
       <button class="btn btn-success mb-3 add-btn mt-3">Add</button>
     </form>
-    <br/>
+    </div>
     </div>
   </div>
 
