@@ -19,7 +19,7 @@ const flash=require("connect-flash")
 const passport=require("passport")
 const User=require("./models/user.js")
 const LocalStrategy=require("passport-local")
-// MONGO_URL="mongodb+srv://shaanqureshi770:sara786@shaandb.mibdl85.mongodb.net/Wanderhome"
+
 
 const dbUrl=process.env.ATLASDB_URL
 async function main(){await mongoose.connect(dbUrl);};
