@@ -121,6 +121,11 @@ footer{
     font-size: 1.5rem;
     margin-right: 1rem;
 }
+.f-info-socials i:hover {
+    color: #2ecc71;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
 
 .f-info {
     width: 100%;
@@ -141,6 +146,7 @@ footer{
 
 [data-theme="dark"] .f-info-links a {
     color: #2ecc71;
+    cursor: pointer;
 }
 
 [data-theme="dark"] .f-info-links a:hover {
