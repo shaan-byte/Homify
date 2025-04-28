@@ -70,3 +70,6 @@ CLOUD_API_SECRET=yourCloudinaryAPISecret
 ### 4.Run the Server
 <pre> ``` node app.js ``` </pre>>
 
+### 5. Deployed project on
+<pre> https://homify-tech-driven-shelter-solution.onrender.com </pre>
+
