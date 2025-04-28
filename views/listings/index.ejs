@@ -64,30 +64,86 @@
       }
       
       .tax-toggle {
-          border: 2px solid #d1d5db;
-          border-radius: 50px;
-          padding: 0.5rem 1rem;
-          height: auto;
-          display: flex;
-          align-items: center;
-          background-color: #f1f5f9;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-          transition: background-color 0.3s, box-shadow 0.3s;
-          flex-shrink: 0;
-          white-space: nowrap;
-          font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: #f7f7f7;
+        border-radius: 999px;
+        padding: 0.5rem 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        border: 1.5px solid #e5e7eb;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background 0.2s, border 0.2s;
+        margin-left: 1rem;
       }
       
+      .tax-label {
+        color: #222;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .tax-switch {
+        position: relative;
+        width: 48px;
+        height: 28px;
+        display: inline-block;
+      }
+
+      .tax-switch input[type="checkbox"] {
+        opacity: 0;
+        width: 48px;
+        height: 28px;
+        cursor: pointer;
+        position: absolute;
+        left: 0; top: 0;
+        z-index: 2;
+      }
+
+      .tax-slider {
+        position: absolute;
+        top: 6px; left: 0;
+        width: 48px;
+        height: 24px;
+        background: #ddd;
+        border-radius: 999px;
+        transition: background 0.2s;
+      }
+
+      .tax-switch input:checked + .tax-slider {
+        background: #34d399;
+      }
+
+      .tax-slider::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        width: 20px;
+        height: 16px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+      }
+
+      .tax-switch input:checked + .tax-slider::before {
+        transform: translateX(20px);
+      }
+
+      .tax-toggle.active {
+        background: #e6f7f2;
+        border-color: #34d399;
+      }
       .tax-toggle:hover {
-          background-color: #e5e7eb;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          cursor: pointer;
+        background: #e6f7f2;
+        border-color: #34d399;
       }
-      
-      #tax-info {
-          display: none;
-          transition: opacity 0.3s ease;
-          font-style: italic;
+
+      .tax-toggle.active .tax-label {
+        color: #059669;
+        font-weight: 400;
       }
       
       .form-check-reverse {
@@ -325,15 +381,26 @@
           color: #ccc;
       }
 
-      [data-theme="dark"] .tax-toggle {
-          background-color: #3d3d3d;
-          border-color: #444;
+      [data-theme="dark"] .tax-label{
           color: #fff;
       }
 
-      [data-theme="dark"] .tax-toggle:hover {
-          background-color: #444;
+      [data-theme="dark"] #switchCheckDefault:checked + .tax-slider + .tax-label {
+    font-weight: 600;
+}
+
+
+      [data-theme="dark"] .tax-toggle {
+          background-color: #3d3d3d;
+          border-color: #444;
+          color: #ccc;
       }
+
+      [data-theme="dark"] .tax-toggle:hover {
+          border-color: #2ecc71;
+      }
+
+     
 
       [data-theme="dark"] .form-check-label {
           color: #fff;
@@ -614,11 +681,12 @@
       </div>
       </a>
       
-      <div class="tax-toggle">
-        <div class="form-check-reverse form-switch">
-          <label class="form-check-label" for="switchCheckDefault">With Taxes</label>
-          <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-        </div>
+      <div class="tax-toggle" id="taxToggle">
+        <span class="tax-label">With Taxes</span>
+        <label class="tax-switch">
+          <input type="checkbox" id="switchCheckDefault">
+          <span class="tax-slider"></span>
+        </label>
       </div>
      </div>
     <!-- <form method="GET" action="/listings/new">
@@ -646,57 +714,31 @@
     </div>
 
     <script>
-      let taxSwitch = document.getElementById("switchCheckDefault");
-    
-      taxSwitch.addEventListener("click", () => {
+      const taxSwitch = document.getElementById("switchCheckDefault");
+      const taxToggle = document.getElementById("taxToggle");
+      taxSwitch.addEventListener("change", () => {
+        taxToggle.classList.toggle("active", taxSwitch.checked);
+        // Show/hide tax info
         let taxInfos = document.querySelectorAll("#tax-info");
-    
         taxInfos.forEach(info => {
-          if (info.style.display !== "inline") {
-            info.style.display = "inline";
-          } else {
-            info.style.display = "none";
-          }
+          info.style.display = taxSwitch.checked ? "inline" : "none";
         });
       });
-
+      // Heart icon functionality (unchanged)
       const heartIcons = document.querySelectorAll(".heart-icon i");
-
-heartIcons.forEach((icon, index) => {
-  const isLiked = localStorage.getItem(`heart-${index}`) === "true";
-        const heartContainer = icon.parentElement;
-        
-  if (isLiked) {
-    icon.classList.add("fa-solid");
-    icon.classList.remove("fa-regular");
-          icon.style.color = "#ef4444";
-  }
-});
-
-heartIcons.forEach((icon, index) => {
-  icon.addEventListener("click", (e) => {
+      heartIcons.forEach((icon, index) => {
+        const isLiked = localStorage.getItem(`heart-${index}`) === "true";
+        if (isLiked) {
+          icon.classList.add("fa-solid");
+          icon.classList.remove("fa-regular");
+        }
+        icon.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
-
-          const heartContainer = icon.parentElement;
           const isLiked = icon.classList.toggle("fa-solid");
-    
-    icon.classList.toggle("fa-regular");
-          if (isLiked) {
-            icon.style.color = "#ef4444";
-          } else {
-            icon.style.color = "#374151";
-          }
-          
-          // Add animation classes
-          heartContainer.classList.add("liked");
-
-          // Remove animation classes after animation completes
-          setTimeout(() => {
-            heartContainer.classList.remove("liked");
-          }, 800);
+          icon.classList.toggle("fa-regular");
           localStorage.setItem(`heart-${index}`, isLiked);
-  });
-});
+        });
+      });
     </script>
     
