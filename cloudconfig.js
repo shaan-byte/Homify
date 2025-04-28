@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
     folder: 'Homify_DEV',
-    allowedFormats: ['jpeg', 'png', 'jpg','gif','pdf'],
+    allowedFormats: ['jpeg', 'png', 'jpg','gif','pdf','webp'],
     },
   });
 

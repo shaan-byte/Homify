@@ -1,6 +1,5 @@
 mapboxgl.accessToken = mapToken;
 
-console.log('Listing coordinates:', listing.geometry.coordinates); // Debug: check order
 
 const coords = listing.geometry.coordinates; // Use as-is
 
@@ -11,7 +10,7 @@ const map = new mapboxgl.Map({
     zoom: 12
 });
 
-const marker1 = new mapboxgl.Marker({color: "orange"})
+const marker1 = new mapboxgl.Marker({color: "blue"})
     .setLngLat(coords)
     .addTo(map);
 
