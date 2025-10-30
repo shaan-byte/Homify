@@ -18,7 +18,7 @@ module.exports.signUp=async (req,res,next)=>{
     if(err){
         return next(err)
     }
-    req.flash("success", "Welcome to Homify!")
+    req.flash("success", "Welcome to DreamNest!")
     res.redirect("/listings")
   })}
   catch(e){
@@ -28,7 +28,7 @@ module.exports.signUp=async (req,res,next)=>{
 
 
 module.exports.login=async (req, res) => {
-    req.flash("success", "Welcome back to Homify!");
+    req.flash("success", "Welcome back to DreamNest!");
     let redirectUrl = res.locals.redirectUrl || "/listings" //if redirectUrl is not set, redirect to listings page
     res.redirect(redirectUrl ); //redirect to the original url or listings page
 }
